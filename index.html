@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviva Hotéis & Resorts | Portal do Hóspede</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script src="https://adqura02.pegalabs.io/prweb/PRRestService/c11nsvc/v1/pega-embed.js" defer></script>
+
+    <style>
+        :root {
+            --aviva-blue: #0084ff;
+            --aviva-orange: #f39200;
+            --glass-bg: rgba(255, 255, 255, 0.75); 
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                        url('https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        header {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container img {
+            height: 80px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            text-decoration: none;
+            color: white;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: white;
+            color: var(--aviva-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(
+                90deg, 
+                #00a859, 
+                #8dc63f, 
+                #ffd200, 
+                #f7941d, 
+                #00aeef  
+            );
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientMove 6s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        main {
+            width: 95%;
+            max-width: 900px;
+            padding-bottom: 50px;
+            z-index: 2;
+        }
+
+        .portal-window {
+            background: var(--glass-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            color: #333;
+            /* AJUSTE: Efeito de vidro para não perder legibilidade */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .tabs-nav {
+            display: flex;
+            justify-content: center;
+            /* AJUSTE: Removido fundo branco sólido para herdar a transparência */
+            background: rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 10px 0;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 12px 25px;
+            font-weight: 600;
+            color: #555;
+            cursor: pointer;
+            position: relative;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+        }
+
+        .tab-btn.active { color: var(--aviva-blue); }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 20%;
+            width: 60%;
+            height: 3px;
+            background: var(--aviva-blue);
+            border-radius: 10px 10px 0 0;
+        }
+
+        #pega-container {
+            min-height: 500px;
+            background: transparent; 
+            padding: 20px;
+            position: relative;
+        }
+
+        .loader {
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.8);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            font-family: 'Fredoka', sans-serif;
+            color: var(--aviva-blue);
+        }
+
+        footer {
+            margin-top: auto;
+            width: 100%;
+            padding: 40px 20px;
+            text-align: center;
+            background: rgba(255,255,255,0.9);
+            color: #333;
+        }
+
+        .social-bar a { color: var(--aviva-blue); margin: 0 15px; font-size: 1.6rem; transition: 0.3s; }
+        .social-bar a:hover { color: var(--aviva-orange); }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { gap: 10px; }
+            .nav-btn { padding: 8px 12px; font-size: 0.65rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="logo-aviva.png" alt="Aviva">
+        </div>
+        <nav class="nav-links">
+            <a href="hoteis.html" class="nav-btn">Hotéis</a>
+            <a href="experiencias.html" class="nav-btn">Experiências</a>
+            <a href="membros.html" class="nav-btn">Membros</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>A arte de viver<br>o extraordinário</h1>
+        <p>Gerencie sua reserva na rede Aviva com total segurança e conforto</p>
+    </section>
+
+    <main>
+        <div class="portal-window">
+            <nav class="tabs-nav">
+                <button class="tab-btn active" onclick="loadPega('BookingConfirmation', 0)">Minha Reserva</button>
+            </nav>
+            <div id="pega-container">
+                <div id="loading" class="loader">
+                    <i class="fas fa-circle-notch fa-spin" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                    <span>Sincronizando sua experiência...</span>
+                </div>
+                <div id="pega-placeholder"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="social-bar">
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+        </div>
+        <p>© 2026 AVIVA HOTÉIS & RESORTS — TODOS OS DIREITOS RESERVADOS</p>
+    </footer>
+
+    <script>
+        function loadPega(caseType, btnIndex) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(t => t.classList.remove('active'));
+            if(tabs[btnIndex]) tabs[btnIndex].classList.add('active');
+
+            const loader = document.getElementById('loading');
+            loader.style.display = 'flex';
+
+            const container = document.getElementById('pega-placeholder');
+            container.innerHTML = '';
+
+            const pegaEmbed = document.createElement('pega-embed');
+            pegaEmbed.id = 'theEmbed';
+            pegaEmbed.setAttribute('action', 'createCase');
+            pegaEmbed.setAttribute('caseTypeID', `Aviva-Experience-Work-${caseType}`);
+            pegaEmbed.setAttribute('appAlias', 'aviva--experincia-do-hspede-1');
+            pegaEmbed.setAttribute('pegaServerUrl', 'https://adqura02.pegalabs.io/prweb/');
+            pegaEmbed.setAttribute('clientId', '12444249209306947994');
+            pegaEmbed.setAttribute('themeID', 'pzCosmosDefault');
+            pegaEmbed.setAttribute('casePage', 'assignment');
+    
+            pegaEmbed.setAttribute('assignmentHeader', 'false'); 
+            
+            pegaEmbed.setAttribute('autoReauth', 'true');
+            pegaEmbed.setAttribute('authService', 'pega');
+            pegaEmbed.style.width = '100%';
+            
+            container.appendChild(pegaEmbed);
+
+            setTimeout(() => { loader.style.display = 'none'; }, 1500);
+        }
+
+        window.onload = () => loadPega('BookingConfirmation', 0);
+    </script>
+</body>
+</html>
