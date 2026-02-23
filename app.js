@@ -35,21 +35,6 @@ const CASE_MAP = Object.freeze({
   },
 });
 
-/**
- * ─────────────────────────────────────────────────────────────
- * AUTO-LOGIN — Credenciais de demonstração
- *
- * ⚠️  ATENÇÃO: credenciais aqui são visíveis no DevTools.
- *     Use apenas em ambiente de demo / intranet controlada.
- *     Em produção, substitua por autenticação SSO ou OAuth.
- * ─────────────────────────────────────────────────────────────
- */
-const PEGA_AUTH = Object.freeze({
-  User:     'HospedeAviva',
-  Password: 'PresetPassword123',
-  Source:   'web',           // ajuste se o seu Pega usar outro valor
-});
-
 const TAB_META = Object.freeze({
   BookingConfirmation: {
     loaderIcon: 'fa-file-lines',
@@ -167,59 +152,12 @@ function waitForPegaSdk() {
 }
 
 /**
- * Autentica no Pega via API antes de renderizar o embed.
- * O Pega armazena o token em cookie de sessão automaticamente,
- * então o embed carrega já autenticado, sem mostrar tela de login.
- *
- * @returns {Promise<boolean>}  true = autenticado, false = falhou
- */
-async function pegaLogin() {
-  const PEGA_SERVER = 'https://adqura02.pegalabs.io/prweb/';
-
-  const body = new URLSearchParams({
-    User:     PEGA_AUTH.User,
-    Password: PEGA_AUTH.Password,
-    Source:   PEGA_AUTH.Source,
-  });
-
-  try {
-    const res = await fetch(`${PEGA_SERVER}PRRestService/v1/authenticate`, {
-      method:      'POST',
-      credentials: 'include',   // essencial: envia/recebe cookie de sessão
-      headers:     { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body,
-    });
-
-    if (!res.ok) {
-      console.warn(`[Aviva] Login falhou: HTTP ${res.status}`);
-      return false;
-    }
-
-    console.info('[Aviva] Autenticado no Pega com sucesso.');
-    return true;
-
-  } catch (err) {
-    console.error('[Aviva] Erro ao autenticar no Pega:', err);
-    return false;
-  }
-}
-
-/**
  * Cria e injeta o elemento <pega-embed> no placeholder.
  * Conecta todos os eventos do ciclo de vida do Pega.
  *
  * @param {string} caseType — chave em CASE_MAP
  */
-async function renderEmbed(caseType) {
-  // Autentica antes de renderizar — evita tela de login do Pega
-  const loggedIn = await pegaLogin();
-
-  if (!loggedIn) {
-    Loader.hide();
-    ErrorPanel.show('Não foi possível autenticar. Verifique as credenciais ou a conexão.');
-    return;
-  }
-
+function renderEmbed(caseType) {
   // Limpa embed anterior
   dom.pegaPlaceholder.innerHTML = '';
 
