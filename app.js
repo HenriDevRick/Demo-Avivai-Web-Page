@@ -74,9 +74,9 @@ const FLOATIE_EMOJIS = Object.freeze({
 /** Intervalo de polling para aguardar o SDK do Pega (ms) */
 const PEGA_POLL_INTERVAL_MS  = 150;
 /** Tempo máximo aguardando o SDK antes de mostrar erro (ms) */
-const PEGA_SDK_TIMEOUT_MS    = 8000;
+const PEGA_SDK_TIMEOUT_MS    = 12000;
 /** Tempo máximo aguardando o evento pega-embed-ready (ms) */
-const PEGA_READY_TIMEOUT_MS  = 10000;
+const PEGA_READY_TIMEOUT_MS  = 15000;
 /** Duração dos toasts na tela (ms) */
 const TOAST_DURATION_MS      = 4500;
 /** Quantidade de emojis flutuantes por tela de sucesso */
@@ -158,14 +158,14 @@ function waitForPegaSdk() {
  * @param {string} caseType — chave em CASE_MAP
  */
 function renderEmbed(caseType) {
-  // Limpa embed anterior
+  // Limpa embed anterior (destrói instância Pega anterior)
   dom.pegaPlaceholder.innerHTML = '';
 
   const cfg   = CASE_MAP[caseType];
   const embed = document.createElement('pega-embed');
 
-  // Atributos exatamente como documentado pelo Pega
-  embed.setAttribute('id',               'theEmbed');
+  // ID único por aba para evitar conflito de instâncias
+  embed.setAttribute('id',               `pega-embed-${caseType.toLowerCase()}`);
   embed.setAttribute('action',           'createCase');
   embed.setAttribute('caseTypeID',       cfg.caseTypeID);
   embed.setAttribute('clientId',         cfg.clientId);
@@ -176,11 +176,19 @@ function renderEmbed(caseType) {
   embed.setAttribute('assignmentHeader', 'false');
   embed.setAttribute('autoReauth',       'true');
   embed.setAttribute('authService',      'pega');
-  embed.style.width   = '100%';
-  embed.style.display = 'block';
+  embed.setAttribute('showAuthLogin',    'true');   // exibe login inline se necessário
+  embed.style.width      = '100%';
+  embed.style.display    = 'block';
+  embed.style.minHeight  = '520px';
 
   // ── Eventos do ciclo de vida Pega ──
   embed.addEventListener('pega-embed-ready', () => {
+    clearTimeout(state.readyFallbackTimer);
+    Loader.hide();
+  });
+
+  embed.addEventListener('pega-embed-auth', () => {
+    // Pega está pedindo autenticação — esconde o loader e deixa o embed lidar com o login
     clearTimeout(state.readyFallbackTimer);
     Loader.hide();
   });
@@ -189,6 +197,11 @@ function renderEmbed(caseType) {
     clearTimeout(state.readyFallbackTimer);
     Loader.hide();
     Success.show(caseType);
+  });
+
+  embed.addEventListener('pega-case-cancelled', () => {
+    clearTimeout(state.readyFallbackTimer);
+    Loader.hide();
   });
 
   // Escuta erros genéricos do custom element
