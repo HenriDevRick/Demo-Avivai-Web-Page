@@ -176,7 +176,11 @@ function renderEmbed(caseType) {
   embed.setAttribute('assignmentHeader', 'false');
   embed.setAttribute('autoReauth',       'true');
   embed.setAttribute('authService',      'pega');
-  embed.setAttribute('showAuthLogin',    'true');   // exibe login inline se necessário
+  
+  // ALTERAÇÃO: Desabilitar a exibição do login inline e configurar para acesso anônimo
+  embed.setAttribute('showAuthLogin',    'false');   // Não exibe login inline
+  embed.setAttribute('pegaAnonymous',    'true');    // Tenta acesso anônimo
+  
   embed.style.width      = '100%';
   embed.style.display    = 'block';
   embed.style.minHeight  = '520px';
@@ -188,9 +192,11 @@ function renderEmbed(caseType) {
   });
 
   embed.addEventListener('pega-embed-auth', () => {
-    // Pega está pedindo autenticação — esconde o loader e deixa o embed lidar com o login
+    // Pega está pedindo autenticação — mesmo com anonymous, pode ocorrer
     clearTimeout(state.readyFallbackTimer);
     Loader.hide();
+    // Se ainda assim pedir auth, talvez seja necessário informar o usuário
+    console.log('[Aviva] Embed solicitando autenticação');
   });
 
   embed.addEventListener('pega-case-submitted', () => {
