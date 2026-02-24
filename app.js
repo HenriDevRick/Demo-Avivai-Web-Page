@@ -22,7 +22,6 @@
 
 const CASE_MAP = Object.freeze({
   BookingConfirmation: {
-    // Atualizado com os novos valores fornecidos
     caseTypeID: 'Aviva-Experience-Work-BookingConfirmation',
     clientId:   '12444249209306947994',
   },
