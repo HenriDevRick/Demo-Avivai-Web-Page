@@ -174,8 +174,8 @@ function renderEmbed(caseType) {
   embed.setAttribute('themeID',          'pzCosmosDefault');
   embed.setAttribute('casePage',         'assignment');
   embed.setAttribute('assignmentHeader', 'false');
-  embed.setAttribute('autoReauth',       'true');
-  embed.setAttribute('authService',      'pega');
+  embed.setAttribute('grantType',       'customBearer');
+
   
   // ALTERAÇÃO: Desabilitar a exibição do login inline e configurar para acesso anônimo
   embed.setAttribute('showAuthLogin',    'false');   // Não exibe login inline
