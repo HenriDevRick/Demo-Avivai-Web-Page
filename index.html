@@ -1,425 +1,299 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Portal do Hóspede Aviva Resorts — gerencie sua reserva, check-in e check-out online.">
-  <title>Aviva Resorts | Portal do Hóspede</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aviva Resorts | Portal do Hóspede</title>
 
-  <!-- Favicon — usa o mesmo logo-aviva.png da pasta -->
-  <link rel="icon" type="image/png" href="logo-aviva.png">
-  <link rel="apple-touch-icon"      href="logo-aviva.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src='https://adqura02.pegalabs.io/prweb/PRRestService/c11nsvc/v1/pega-embed.js' ></script>
 
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root {
+    --aviva-blue: #0084ff;
+    --aviva-orange: #f39200;
+    --glass-bg: rgba(255, 255, 255, 0.75); 
+}
 
-  <!-- Styles -->
-  <link rel="stylesheet" href="styles.css">
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-  <!-- Pega SDK (defer = non-blocking) -->
-  <script src="https://adqura02.pegalabs.io/prweb/PRRestService/c11nsvc/v1/pega-embed.js" defer></script>
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                url('https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&q=80&w=2000');
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    overflow-x: hidden;
+}
+
+header {
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-container img {
+    height: 80px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.nav-links { display: flex; gap: 15px; }
+
+.nav-btn {
+    text-decoration: none;
+    color: white;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    background: white;
+    color: var(--aviva-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.hero {
+    text-align: center;
+    padding: 60px 20px;
+    max-width: 800px;
+}
+
+.hero h1 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 3.5rem;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    background: linear-gradient(
+        90deg, 
+        #00a859, 
+        #8dc63f, 
+        #ffd200, 
+        #f7941d, 
+        #00aeef  
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradientMove 6s ease infinite;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.hero p {
+    font-size: 1.2rem;
+    opacity: 0.95;
+    max-width: 650px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+main {
+    width: 95%;
+    max-width: 900px;
+    padding-bottom: 50px;
+    z-index: 2;
+}
+
+.portal-window {
+    background: var(--glass-bg);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    color: #333;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.tabs-nav {
+    display: flex;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 10px 0;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 12px 25px;
+    font-weight: 600;
+    color: #555;
+    cursor: pointer;
+    position: relative;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1rem;
+}
+
+.tab-btn.active { color: var(--aviva-blue); }
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 20%;
+    width: 60%;
+    height: 3px;
+    background: var(--aviva-blue);
+    border-radius: 10px 10px 0 0;
+}
+
+#pega-container {
+    min-height: 600px;
+    background: transparent; 
+    padding: 20px;
+    position: relative;
+}
+
+pega-embed {
+    width: 100%;
+    height: 580px;
+    display: block;
+}
+
+.loader {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    font-family: 'Fredoka', sans-serif;
+    color: var(--aviva-blue);
+}
+
+footer {
+    margin-top: auto;
+    width: 100%;
+    padding: 40px 20px;
+    text-align: center;
+    background: rgba(255,255,255,0.9);
+    color: #333;
+}
+
+.social-bar a { color: var(--aviva-blue); margin: 0 15px; font-size: 1.6rem; transition: 0.3s; }
+.social-bar a:hover { color: var(--aviva-orange); }
+
+@media (max-width: 768px) {
+    .hero h1 { font-size: 2.5rem; }
+    pega-embed { height: 520px; }
+}
+</style>
 </head>
 
 <body>
 
-  <!-- ═══════════════════════════════════════
-       HEADER
-  ═══════════════════════════════════════ -->
-  <header class="site-header">
-
-    <!-- Logo: basta colocar logo-aviva.png na mesma pasta -->
-    <a href="/" class="logo-link" aria-label="Aviva Resorts — página inicial">
-      <img
-        src="logo-aviva.png"
-        alt="Aviva Resorts"
-        class="logo-img"
-        width="180"
-        height="72"
-      >
-    </a>
-
-    <nav class="site-nav" aria-label="Navegação principal">
-      <a href="hoteis.html"      class="nav-btn">Hotéis</a>
-      <a href="experiencias.html" class="nav-btn">Experiências</a>
-      <a href="membros.html"     class="nav-btn">Membros</a>
-    </nav>
-
-  </header>
-
-
-  <!-- ═══════════════════════════════════════
-       HERO
-  ═══════════════════════════════════════ -->
-  <section class="hero" aria-labelledby="hero-title">
-
-    <p class="hero-eyebrow" aria-hidden="true">
-      <i class="fa-solid fa-star"></i>
-      Portal do Hóspede
-    </p>
-
-    <h1 id="hero-title" class="hero-title">
-      Multiplicando maneiras<br>de fazer você feliz
-    </h1>
-
-    <p class="hero-subtitle">
-      Gerencie sua reserva, faça check-in antecipado e muito mais — tudo em um só lugar.
-    </p>
-
-  </section>
-
-
-  <!-- ═══════════════════════════════════════
-       STATUS STRIP
-  ═══════════════════════════════════════ -->
-  <div class="status-strip" role="status" aria-label="Status dos serviços">
-    <span class="status-pill">
-      <span class="status-dot dot-green" aria-hidden="true"></span>
-      Sistema operacional
-    </span>
-    <span class="status-pill">
-      <span class="status-dot dot-blue" aria-hidden="true"></span>
-      Check-in disponível
-    </span>
-    <span class="status-pill">
-      <span class="status-dot dot-orange" aria-hidden="true"></span>
-      Suporte 24h
-    </span>
-  </div>
-
-
-  <!-- ═══════════════════════════════════════
-       PORTAL CARD
-  ═══════════════════════════════════════ -->
-  <main id="main-content">
-    <div class="portal-card">
-
-      <!-- ── Tab navigation ── -->
-      <div class="tabs-header" role="tablist" aria-label="Serviços disponíveis">
-
-        <button
-          class="tab-btn active"
-          data-tab="reserva"
-          role="tab"
-          aria-selected="true"
-          aria-controls="pega-panel"
-          id="tab-reserva"
-          data-case="BookingConfirmation"
-          data-index="0"
-        >
-          <span class="tab-icon-box" aria-hidden="true">
-            <i class="fa-solid fa-file-lines"></i>
-          </span>
-          <span class="tab-text">
-            <span class="tab-label">Minha Reserva</span>
-            <span class="tab-desc">Consultar e editar</span>
-          </span>
-        </button>
-
-        <button
-          class="tab-btn"
-          data-tab="checkin"
-          role="tab"
-          aria-selected="false"
-          aria-controls="pega-panel"
-          id="tab-checkin"
-          data-case="CheckIn"
-          data-index="1"
-        >
-          <span class="tab-icon-box" aria-hidden="true">
-            <i class="fa-solid fa-right-to-bracket"></i>
-          </span>
-          <span class="tab-text">
-            <span class="tab-label">Check-in</span>
-            <span class="tab-desc">Entrada antecipada</span>
-          </span>
-        </button>
-
-        <button
-          class="tab-btn"
-          data-tab="checkout"
-          role="tab"
-          aria-selected="false"
-          aria-controls="pega-panel"
-          id="tab-checkout"
-          data-case="CheckOut"
-          data-index="2"
-        >
-          <span class="tab-icon-box" aria-hidden="true">
-            <i class="fa-solid fa-right-from-bracket"></i>
-          </span>
-          <span class="tab-text">
-            <span class="tab-label">Check-out</span>
-            <span class="tab-desc">Encerrar estadia</span>
-          </span>
-        </button>
-
-      </div><!-- /tabs-header -->
-
-
-      <!-- ── Panel ── -->
-      <div id="pega-panel" role="tabpanel" aria-labelledby="tab-reserva">
-
-        <!-- Loading overlay -->
-        <div class="loader" id="js-loader" role="status" aria-live="polite" aria-label="Carregando">
-          <div class="loader-icon" id="js-loader-icon" aria-hidden="true">
-            <i class="fa-solid fa-umbrella-beach"></i>
-          </div>
-          <p class="loader-text" id="js-loader-text">Carregando sua experiência</p>
-          <div class="loader-dots" aria-hidden="true">
-            <span></span><span></span><span></span>
-          </div>
-        </div>
-
-        <!-- Error overlay -->
-        <div class="error-state" id="js-error" role="alert" aria-live="assertive">
-          <i class="fa-regular fa-triangle-exclamation" aria-hidden="true"></i>
-          <h2>Algo deu errado</h2>
-          <p>Não conseguimos carregar o serviço. Verifique sua conexão e tente novamente.</p>
-          <button class="retry-btn" id="js-retry">
-            <i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Tentar novamente
-          </button>
-        </div>
-
-
-        <!-- ── Success: Check-in ── -->
-        <div
-          id="success-checkin"
-          class="success-screen"
-          data-type="checkin"
-          role="region"
-          aria-label="Check-in concluído"
-          aria-live="polite"
-         
-        >
-          <div class="floaties" aria-hidden="true"></div>
-
-          <div class="success-ring" aria-hidden="true">
-            <svg viewBox="0 0 116 116" focusable="false">
-              <circle class="ring-bg"   cx="58" cy="58" r="50"/>
-              <circle class="ring-fill" cx="58" cy="58" r="50"/>
-            </svg>
-            <span class="ring-icon">🏖️</span>
-          </div>
-
-          <span class="success-badge">
-            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
-            Concluído com sucesso
-          </span>
-
-          <h2 class="success-title">Check-in realizado!<br>Bem-vindo à Aviva 🌺</h2>
-
-          <p class="success-subtitle">
-            Tudo certo para a sua chegada. Apresente esta confirmação na recepção e aproveite cada momento da sua estadia.
-          </p>
-
-          <ul class="success-details" aria-label="Resumo do check-in">
-            <li class="detail-card">
-              <span class="detail-card-icon" aria-hidden="true">📅</span>
-              <span class="detail-card-label">Data</span>
-              <span class="detail-card-value js-today-date">—</span>
-            </li>
-            <li class="detail-card">
-              <span class="detail-card-icon" aria-hidden="true">🏨</span>
-              <span class="detail-card-label">Status</span>
-              <span class="detail-card-value">Confirmado</span>
-            </li>
-            <li class="detail-card">
-              <span class="detail-card-icon" aria-hidden="true">🔑</span>
-              <span class="detail-card-label">Acesso</span>
-              <span class="detail-card-value">Liberado</span>
-            </li>
-          </ul>
-
-          <div class="success-actions">
-            <button class="success-btn-primary" data-goto-case="BookingConfirmation" data-goto-index="0">
-              <i class="fa-solid fa-file-lines" aria-hidden="true"></i> Ver minha reserva
-            </button>
-            <button class="success-btn-secondary js-back-btn">
-              <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Voltar
-            </button>
-          </div>
-        </div><!-- /success-checkin -->
-
-
-        <!-- ── Success: Check-out ── -->
-        <div
-          id="success-checkout"
-          class="success-screen"
-          data-type="checkout"
-          role="region"
-          aria-label="Check-out concluído"
-          aria-live="polite"
-         
-        >
-          <div class="floaties" aria-hidden="true"></div>
-
-          <div class="success-ring" aria-hidden="true">
-            <svg viewBox="0 0 116 116" focusable="false">
-              <circle class="ring-bg"   cx="58" cy="58" r="50"/>
-              <circle class="ring-fill" cx="58" cy="58" r="50"/>
-            </svg>
-            <span class="ring-icon">🌅</span>
-          </div>
-
-          <span class="success-badge">
-            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
-            Estadia encerrada
-          </span>
-
-          <h2 class="success-title">Até a próxima!<br>Esperamos você em breve ✈️</h2>
-
-          <p class="success-subtitle">
-            Seu check-out foi processado. Foi uma honra recebê-lo! Esperamos que cada momento na Aviva tenha sido inesquecível.
-          </p>
-
-          <ul class="success-details" aria-label="Resumo do check-out">
-            <li class="detail-card">
-              <span class="detail-card-icon" aria-hidden="true">📅</span>
-              <span class="detail-card-label">Data</span>
-              <span class="detail-card-value js-today-date">—</span>
-            </li>
-            <li class="detail-card">
-              <span class="detail-card-icon" aria-hidden="true">✅</span>
-              <span class="detail-card-label">Status</span>
-              <span class="detail-card-value">Finalizado</span>
-            </li>
-            <li class="detail-card">
-              <span class="detail-card-icon" aria-hidden="true">⭐</span>
-              <span class="detail-card-label">Avaliação</span>
-              <span class="detail-card-value">Deixe a sua</span>
-            </li>
-          </ul>
-
-          <div class="success-actions">
-            <button class="success-btn-primary">
-              <i class="fa-solid fa-star" aria-hidden="true"></i> Avaliar estadia
-            </button>
-            <button class="success-btn-secondary js-back-btn">
-              <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Início
-            </button>
-          </div>
-        </div><!-- /success-checkout -->
-
-
-        <!-- ── Success: Reserva ── -->
-        <div
-          id="success-reserva"
-          class="success-screen"
-          data-type="reserva"
-          role="region"
-          aria-label="Reserva confirmada"
-          aria-live="polite"
-         
-        >
-          <div class="floaties" aria-hidden="true"></div>
-
-          <div class="success-ring" aria-hidden="true">
-            <svg viewBox="0 0 116 116" focusable="false">
-              <circle class="ring-bg"   cx="58" cy="58" r="50"/>
-              <circle class="ring-fill" cx="58" cy="58" r="50"/>
-            </svg>
-            <span class="ring-icon">🎉</span>
-          </div>
-
-          <span class="success-badge">
-            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
-            Reserva confirmada
-          </span>
-
-          <h2 class="success-title">Reserva atualizada<br>com sucesso!</h2>
-
-          <p class="success-subtitle">
-            Tudo certo! Em breve você receberá um e-mail com todos os detalhes da sua reserva.
-          </p>
-
-          <ul class="success-details" aria-label="Resumo da reserva">
-            <li class="detail-card">
-              <span class="detail-card-icon" aria-hidden="true">📋</span>
-              <span class="detail-card-label">Reserva</span>
-              <span class="detail-card-value">Confirmada</span>
-            </li>
-            <li class="detail-card">
-              <span class="detail-card-icon" aria-hidden="true">📧</span>
-              <span class="detail-card-label">E-mail</span>
-              <span class="detail-card-value">Enviado</span>
-            </li>
-          </ul>
-
-          <div class="success-actions">
-            <button class="success-btn-primary" data-goto-case="CheckIn" data-goto-index="1">
-              <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Fazer check-in
-            </button>
-            <button class="success-btn-secondary js-back-btn">
-              <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Voltar
-            </button>
-          </div>
-        </div><!-- /success-reserva -->
-
-
-        <!-- Pega embed target (filled by JS) -->
-        <div id="js-pega-placeholder"></div>
-
-      </div><!-- /pega-panel -->
-
-
-      <!-- ── Footer chips ── -->
-      <div class="portal-footer" aria-label="Informações do portal">
-        <span class="info-chip">
-          <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
-          Conexão segura SSL
-        </span>
-        <span class="info-chip">
-          <i class="fa-regular fa-clock" aria-hidden="true"></i>
-          Sessão expira em 30 min
-        </span>
-        <span class="info-chip">
-          <i class="fa-regular fa-headset" aria-hidden="true"></i>
-          Suporte: 0800 000 0000
-        </span>
-      </div>
-
-    </div><!-- /portal-card -->
-  </main>
-
-
-  <!-- ═══════════════════════════════════════
-       FOOTER
-  ═══════════════════════════════════════ -->
-  <footer class="site-footer">
-    <div class="footer-inner">
-
-      <nav class="social-bar" aria-label="Redes sociais">
-        <a href="#" class="social-link" aria-label="Instagram">
-          <i class="fa-brands fa-instagram" aria-hidden="true"></i>
-        </a>
-        <a href="#" class="social-link" aria-label="Facebook">
-          <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
-        </a>
-        <a href="#" class="social-link" aria-label="X (Twitter)">
-          <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
-        </a>
-        <a href="#" class="social-link" aria-label="LinkedIn">
-          <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
-        </a>
-      </nav>
-
-      <p class="footer-copy">© 2026 Aviva Resorts — Todos os direitos reservados</p>
-
+<header>
+    <div class="logo-container">
+        <img src="logo-aviva.png" alt="Aviva">
     </div>
-  </footer>
+    <nav class="nav-links">
+        <a href="hoteis.html" class="nav-btn">Hotéis</a>
+        <a href="experiencias.html" class="nav-btn">Experiências</a>
+        <a href="membros.html" class="nav-btn">Membros</a>
+    </nav>
+</header>
 
+<section class="hero">
+    <h1>Multiplicando maneiras<br>de fazer você feliz</h1>
+    <p>Gerencie sua reserva na rede Aviva com total segurança e conforto</p>
+</section>
 
-  <!-- Toast container (populated by JS) -->
-  <div id="js-toast-container" class="toast-container" aria-live="polite" aria-atomic="false"></div>
+<main>
+<div class="portal-window">
 
+<nav class="tabs-nav">
+    <button class="tab-btn active" onclick="loadPega('BookingConfirmation',0)">Minha Reserva</button>
+    <button class="tab-btn" onclick="loadPega('CheckIn',1)">Check-in</button>
+    <button class="tab-btn" onclick="loadPega('CheckOut',2)">Check-out</button>
+</nav>
 
-  <!-- App script (defer keeps it non-blocking) -->
-  <script src="app.js" defer></script>
+<div id="pega-container">
+    <div id="loading" class="loader">
+        <i class="fas fa-circle-notch fa-spin" style="font-size: 2rem; margin-bottom: 10px;"></i>
+        <span>Sincronizando sua experiência...</span>
+    </div>
+    <div id="pega-placeholder">
+        <pega-embed id='theEmbed' action='createCase' caseTypeID='Aviva-Experience-Work-BookingConfirmation' themeID='pzCosmosDefault' casePage='assignment' assignmentHeader='false' appAlias='aviva--experincia-do-hspede-1' pegaServerUrl='https://adqura02.pegalabs.io/prweb/' autoReauth='true' authService='pega' clientId='12444249209306947994' style='width:100%'></pega-embed>
+    </div>
+</div>
+
+</div>
+</main>
+
+<footer>
+<div class="social-bar">
+    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+    <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+</div>
+<p>© 2026 AVIVA RESORTS — TODOS OS DIREITOS RESERVADOS</p>
+</footer>
+
+<script>
+function loadPega(caseType, btnIndex) {
+
+    const caseMap = {
+        BookingConfirmation: "Aviva-Experience-Work-BookingConfirmation",
+        CheckIn: "Aviva-Experience-Work-CheckIn",
+        CheckOut: "Aviva-Experience-Work-CheckOut"
+    };
+
+    const tabs = document.querySelectorAll('.tab-btn');
+    tabs.forEach(t => t.classList.remove('active'));
+    if(tabs[btnIndex]) tabs[btnIndex].classList.add('active');
+
+    const loader = document.getElementById('loading');
+    loader.style.display = 'flex';
+
+    const container = document.getElementById('pega-placeholder');
+    container.innerHTML = '';
+
+    const pegaEmbed = document.createElement('pega-embed');
+    pegaEmbed.setAttribute('action', 'createCase');
+    pegaEmbed.setAttribute('caseTypeID', caseMap[caseType]);
+    pegaEmbed.setAttribute('appAlias', 'aviva--experincia-do-hspede-1');
+    pegaEmbed.setAttribute('pegaServerUrl', 'https://adqura02.pegalabs.io/prweb/');
+    pegaEmbed.setAttribute('clientId', '12444249209306947994');
+    pegaEmbed.setAttribute('themeID', 'pzCosmosDefault');
+    pegaEmbed.setAttribute('casePage', 'assignment');
+    pegaEmbed.setAttribute('assignmentHeader', 'false');
+    pegaEmbed.setAttribute('grantType', 'customBearer');
+
+    container.appendChild(pegaEmbed);
+
+    setTimeout(() => { loader.style.display = 'none'; }, 1200);
+}
+
+window.onload = () => loadPega('BookingConfirmation', 0);
+</script>
 
 </body>
 </html>
