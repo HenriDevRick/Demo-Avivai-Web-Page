@@ -1,302 +1,547 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aviva Resorts | Portal do Hóspede</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviva Resorts - Reserva Experience</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #004b5c;
+            line-height: 1.6;
+        }
 
-<script src='https://reguv.pegatsdemo.com/prweb/PRRestService/c11nsvc/v1/pega-embed.js' ></script>
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
 
-<style>
-:root {
-    --aviva-blue: #0084ff;
-    --aviva-orange: #f39200;
-    --glass-bg: rgba(255, 255, 255, 0.75); 
-}
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
 
-body {
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
-                url('https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&q=80&w=2000');
-    background-size: cover;
-    background-attachment: fixed;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: white;
-    overflow-x: hidden;
-}
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
 
-header {
-    width: 100%;
-    max-width: 1200px;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #004b5c;
+        }
 
-.logo-container img {
-    height: 80px;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-}
+        .logo-img {
+            height: 50px;
+            width: auto;
+        }
 
-.nav-links { display: flex; gap: 15px; }
+        nav a {
+            margin-left: 30px;
+            text-decoration: none;
+            color: #004b5c;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
 
-.nav-btn {
-    text-decoration: none;
-    color: white;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 1px;
-    font-weight: 700;
-    padding: 10px 20px;
-    border-radius: 50px;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    transition: all 0.3s ease;
-}
+        nav a:hover {
+            color: #0093d1;
+        }
 
-.nav-btn:hover {
-    background: white;
-    color: var(--aviva-blue);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://private-us-east-1.manuscdn.com/sessionFile/MJbIllU8XkkduAFoEBZFB3/sandbox/YnijnZb1YqlBwd0wHWkjdu-img-1_1771957486000_na1fn_YXZpdmEtaGVyby1wb29s.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvTUpiSWxsVThYa2tkdUFGb0VCWkZCMy9zYW5kYm94L1luaWpuWmIxWXFsQndkMHdIV2tqZHUtaW1nLTFfMTc3MTk1NzQ4NjAwMF9uYTFmbl9ZWFpwZG1FdGFHVnlieTF3YjI5cy5wbmc~eC1vc3MtcHJvY2Vzcz1pbWFnZS9yZXNpemUsd18xOTIwLGhfMTkyMC9mb3JtYXQsd2VicC9xdWFsaXR5LHFfODAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3OTg3NjE2MDB9fX1dfQ__&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=SgldAU1OUterLIwlRNHppDkOhK9n01isXYmrq04NQNw5o2mYLdjnjnimWPtfM5OqJLXzkPtblJfqGnEaGmagGt~SyYnUtqJ7z8f-Z2asvt-x7zWjaP-58-xbSjaJfVkYQAk5VBwyyD7MuzDfTZKPwkVl5mWGT2XKsp3QUHunJdkMAhbX7Kt~SltSjZE6Z-EQPgQ68t3Pw4zzDKiMTPB0K-~9AQ8aAeVy35fMVxpBH~0AKL~8xNhBYwgQOdV9Vb9PbXfwhGDhy145C-8mZSpm4-Gqa~tjjhSggGss5sNax-IyIuY5jr6flQaP3EE5r0nTxbU7G~NcZzeGxlRavK1k-Q__');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
 
-.hero {
-    text-align: center;
-    padding: 60px 20px;
-    max-width: 800px;
-}
+        .hero-content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
 
-.hero h1 {
-    font-family: 'Fredoka', sans-serif;
-    font-size: 3.5rem;
-    line-height: 1.1;
-    margin-bottom: 20px;
-    background: linear-gradient(
-        90deg, 
-        #00a859, 
-        #8dc63f, 
-        #ffd200, 
-        #f7941d, 
-        #00aeef  
-    );
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: gradientMove 6s ease infinite;
-}
+        .hero-content p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
 
-@keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background-color: #c6d900;
+            color: #004b5c;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
 
-.hero p {
-    font-size: 1.2rem;
-    opacity: 0.95;
-    max-width: 650px;
-    margin: 0 auto;
-    line-height: 1.5;
-}
+        .btn:hover {
+            background-color: #b8c800;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
 
-main {
-    width: 95%;
-    max-width: 900px;
-    padding-bottom: 50px;
-    z-index: 2;
-}
+        /* Destinos Section */
+        .destinos {
+            background-color: white;
+            padding: 80px 0;
+        }
 
-.portal-window {
-    background: var(--glass-bg);
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-    color: #333;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-}
+        .section-title {
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 50px;
+            color: #004b5c;
+        }
 
-.tabs-nav {
-    display: flex;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.2);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    padding: 10px 0;
-}
+        .destinos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
 
-.tab-btn {
-    background: none;
-    border: none;
-    padding: 12px 25px;
-    font-weight: 600;
-    color: #555;
-    cursor: pointer;
-    position: relative;
-    font-family: 'Fredoka', sans-serif;
-    font-size: 1rem;
-}
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
 
-.tab-btn.active { color: var(--aviva-blue); }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
 
-.tab-btn.active::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 20%;
-    width: 60%;
-    height: 3px;
-    background: var(--aviva-blue);
-    border-radius: 10px 10px 0 0;
-}
+        .card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
 
-#pega-container {
-    min-height: 600px;
-    background: transparent; 
-    padding: 20px;
-    position: relative;
-}
+        .card-content {
+            padding: 25px;
+        }
 
-.pega-tab-content {
-    display: none;
-    min-height: 600px;
-}
+        .card-content h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #004b5c;
+        }
 
-.pega-tab-content.active {
-    display: block;
-}
+        .card-content p {
+            color: #666;
+            margin-bottom: 20px;
+        }
 
-pega-embed {
-    width: 100%;
-    height: 580px;
-    display: block;
-}
+        /* Experiências Section */
+        .experiencias {
+            background-color: #004b5c;
+            color: white;
+            padding: 80px 0;
+        }
 
-.loader {
-    position: absolute;
-    inset: 0;
-    background: rgba(255, 255, 255, 0.8);
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-    font-family: 'Fredoka', sans-serif;
-    color: var(--aviva-blue);
-}
+        .experiencias .section-title {
+            color: white;
+        }
 
-footer {
-    margin-top: auto;
-    width: 100%;
-    padding: 40px 20px;
-    text-align: center;
-    background: rgba(255,255,255,0.9);
-    color: #333;
-}
+        .experiencias-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
 
-.social-bar a { color: var(--aviva-blue); margin: 0 15px; font-size: 1.6rem; transition: 0.3s; }
-.social-bar a:hover { color: var(--aviva-orange); }
+        .exp-card {
+            background-color: #0a6b7f;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
 
-@media (max-width: 768px) {
-    .hero h1 { font-size: 2.5rem; }
-    pega-embed { height: 520px; }
-}
-</style>
+        .exp-card:hover {
+            background-color: #0d7d94;
+        }
+
+        .exp-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .exp-card h4 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .exp-card p {
+            font-size: 14px;
+            color: #ddd;
+        }
+
+        /* Tabs Section */
+        .tabs-section {
+            background-color: white;
+            padding: 80px 0;
+        }
+
+        .tabs-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 30px;
+            background-color: #f0f0f0;
+            color: #004b5c;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+
+        .tab-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        .tab-btn.active {
+            background-color: #c6d900;
+            color: #004b5c;
+            border-color: #004b5c;
+        }
+
+        /* Pega Embed Container */
+        .pega-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 900px;
+            margin: 0 auto;
+            min-height: 600px;
+        }
+
+        pega-embed {
+            display: block;
+            width: 100%;
+            min-height: 600px;
+        }
+
+        /* CTA Section */
+        .cta {
+            background-color: #004b5c;
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .cta h3 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #003a47;
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .footer-section p, .footer-section li {
+            color: #ccc;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: #c6d900;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #b8c800;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #0a6b7f;
+            padding-top: 20px;
+            text-align: center;
+            color: #999;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                display: none;
+            }
+
+            .hero-content h1 {
+                font-size: 32px;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .destinos-grid, .experiencias-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs-container {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
-
 <body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310419663030535648/kjcChvtIhqfiojcv.png" alt="Aviva Resorts" class="logo-img">
+                </a>
+                <nav>
+                    <a href="#destinos">Destinos</a>
+                    <a href="#experiencias">Experiências</a>
+                    <a href="#reserva">Serviços</a>
+                </nav>
+            </div>
+        </div>
+    </header>
 
-<header>
-    <div class="logo-container">
-        <img src="logo-aviva.png" alt="Aviva">
-    </div>
-    <nav class="nav-links">
-        <a href="hoteis.html" class="nav-btn">Hotéis</a>
-        <a href="experiencias.html" class="nav-btn">Experiências</a>
-        <a href="membros.html" class="nav-btn">Membros</a>
-    </nav>
-</header>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Multiplicando Maneiras de Fazer Você Feliz</h1>
+            <p>Experiências inesquecíveis em resorts de luxo integrados à natureza brasileira</p>
+            <a href="#reserva" class="btn">Reserve Agora</a>
+        </div>
+    </section>
 
-<section class="hero">
-    <h1>Multiplicando maneiras<br>de fazer você feliz</h1>
-    <p>Gerencie sua reserva na rede Aviva com total segurança e conforto</p>
-</section>
+    <!-- Destinos -->
+    <section class="destinos" id="destinos">
+        <div class="container">
+            <h2 class="section-title">Nossos Destinos</h2>
+            <div class="destinos-grid">
+                <div class="card">
+                    <img src="https://private-us-east-1.manuscdn.com/sessionFile/MJbIllU8XkkduAFoEBZFB3/sandbox/YnijnZb1YqlBwd0wHWkjdu-img-2_1771957477000_na1fn_YXZpdmEtaG90LXNwcmluZw.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvTUpiSWxsVThYa2tkdUFGb0VCWkZCMy9zYW5kYm94L1luaWpuWmIxWXFsQndkMHdIV2tqZHUtaW1nLTJfMTc3MTk1NzQ3NzAwMF9uYTFmbl9ZWFpwZG1FdGFHOTBMWE53Y21sdVp3LnBuZz94LW9zcy1wcm9jZXNzPWltYWdlL3Jlc2l6ZSx3XzE5MjAsaF8xOTIwL2Zvcm1hdCx3ZWJwL3F1YWxpdHkscV84MCIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5ODc2MTYwMH19fV19&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=AG-hSsjezsnNA1D-rF7R~X7Z30pCvKn1uc7Fx1KeWS9vqTpxaCGsoEZJRDy2Nb~qZyopZTITebHZ~xi0FSmHyPQxP5eIPnc6nD3gXXLxVsOG~dCwOtFCCAgp-BP-U8wIeN2B04OrnbayYDPJP1qAw~9hBwCp2Aa~JR0z5lbmLBPo1HonLddsYnKkH5EasZ54TuRCW1xQkkH3sXeNTWjQx-LbfUFq9xHPiAfSMbkDJuY9apc2I7cIo1oQmnZiOOKGB9hYwDU3aSp6ySt0wSQvjVlVU3KFJO4YzxRjEWXTC-yQmHirBxGllN2S3QVrLlPMO9BgnUt2PJm-7NjdCfU~ow__" alt="Rio Quente">
+                    <div class="card-content">
+                        <h3>Rio Quente Resorts</h3>
+                        <p>Águas termais naturais, piscinas aquecidas e o famoso Hot Park. Um paraíso de lazer e bem-estar em Goiás.</p>
+                        <button class="btn">Explorar</button>
+                    </div>
+                </div>
 
-<main>
-<div class="portal-window">
+                <div class="card">
+                    <img src="https://private-us-east-1.manuscdn.com/sessionFile/MJbIllU8XkkduAFoEBZFB3/sandbox/YnijnZb1YqlBwd0wHWkjdu-img-4_1771957499000_na1fn_YXZpdmEtcmVzb3J0LWFlcmlhbA.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvTUpiSWxsVThYa2tkdUFGb0VCWkZCMy9zYW5kYm94L1luaWpuWmIxWXFsQndkMHdIV2tqZHUtaW1nLTRfMTc3MTk1NzQ5OTAwMF9uYTFmbl9ZWFpwZG1FdGNtVnpiM0owTFdGbGNtbGhiQS5wbmc~eC1vc3MtcHJvY2Vzcz1pbWFnZS9yZXNpemUsd18xOTIwLGhfMTkyMC9mb3JtYXQsd2VicC9xdWFsaXR5LHFfODAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3OTg3NjE2MDB9fX1dfQ__&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=RONjJ5EtMM1ZQb8B-Wk-3-h3VzB5YOdtUiApig7dk44rCxcDyUj~46ILqEX08L0rIZ0-aTRZUGseDnGbP6uy5xpk61iFTX3Jp0igrX-QsU~8NSEnI3cKUqwacu9CUbaLEp5zUQ8fQ2o2h4NYHSTXsbT1RPo2TZg3Kzs-Mlhv9Xj-ccCOjLCSbySyLZ77cnPb6lMlHzgromc7KAOiCWQptqKvWhHft~rr90QTydjDGmzmUKg1MJavTHd8fi1HG14N9LV6rciSukpdrLN~FyLlvw03ITZsXnmnGTieBW~BjLxtDQpOrUayD4saQZLO7o2IRWVi9TEhD6Dw4m-oUMOXWw__" alt="Costa do Sauípe">
+                    <div class="card-content">
+                        <h3>Costa do Sauípe</h3>
+                        <p>Praia paradisíaca na Bahia com resorts all-inclusive, natureza exuberante e experiências inesquecíveis.</p>
+                        <button class="btn">Explorar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<nav class="tabs-nav">
-    <button class="tab-btn active" onclick="switchTab(0)">Minha Reserva</button>
-    <button class="tab-btn" onclick="switchTab(1)">Check-in</button>
-    <button class="tab-btn" onclick="switchTab(2)">Check-out</button>
-</nav>
+    <!-- Experiências -->
+    <section class="experiencias" id="experiencias">
+        <div class="container">
+            <h2 class="section-title">Experiências Incríveis</h2>
+            <div class="experiencias-grid">
+                <div class="exp-card">
+                    <div class="exp-icon">🏊</div>
+                    <h4>Piscinas Aquecidas</h4>
+                    <p>Águas termais naturais e piscinas de luxo</p>
+                </div>
+                <div class="exp-card">
+                    <div class="exp-icon">🎢</div>
+                    <h4>Hot Park</h4>
+                    <p>Parque aquático com toboáguas e atrações</p>
+                </div>
+                <div class="exp-card">
+                    <div class="exp-icon">🍽️</div>
+                    <h4>Gastronomia</h4>
+                    <p>Restaurantes com culinária internacional</p>
+                </div>
+                <div class="exp-card">
+                    <div class="exp-icon">🧘</div>
+                    <h4>Bem-estar</h4>
+                    <p>Spa e tratamentos rejuvenescedores</p>
+                </div>
+                <div class="exp-card">
+                    <div class="exp-icon">👨‍👩‍👧‍👦</div>
+                    <h4>Diversão em Família</h4>
+                    <p>Atividades para todas as idades</p>
+                </div>
+                <div class="exp-card">
+                    <div class="exp-icon">🌿</div>
+                    <h4>Natureza</h4>
+                    <p>Integração com paisagem natural preservada</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<div id="pega-container">
-    <!-- Aba 1: Minha Reserva (Booking Confirmation) -->
-    <div class="pega-tab-content active" id="pega-tab-0">
-        <pega-embed id='theEmbed-0' action='createCase' caseTypeID='Aviva-Experience-Work-BookingConfirmation' themeID='pzCosmosDefault' casePage='assignment' assignmentHeader='false' appAlias='aviva--experincia-do-hspede-1' pegaServerUrl='https://reguv.pegatsdemo.com/prweb/' grantType='customBearer' clientId='12444249209306947994' style='width:100%'></pega-embed>
-    </div>
+    <!-- Serviços com Pega Embed -->
+    <section class="tabs-section" id="reserva">
+        <div class="container">
+            <h2 class="section-title">Nossos Serviços</h2>
+            
+            <div class="tabs-container">
+                <button class="tab-btn active" onclick="switchTab(0)">Confirmação de Reserva</button>
+                <button class="tab-btn" onclick="switchTab(1)">Check-in</button>
+                <button class="tab-btn" onclick="switchTab(2)">Check-out</button>
+            </div>
 
-    <!-- Aba 2: Check-in Digital -->
-    <div class="pega-tab-content" id="pega-tab-1">
-        <pega-embed id='theEmbed-1' action='createCase' caseTypeID='Aviva-Experience-Work-CheckinDigital' themeID='pzCosmosDefault' casePage='assignment' assignmentHeader='false' appAlias='aviva--experincia-do-hspede-1' pegaServerUrl='https://reguv.pegatsdemo.com/prweb/' grantType='customBearer' clientId='55966357118681751596' style='width:100%'></pega-embed>
-    </div>
+            <div class="pega-container" id="pega-container"></div>
+        </div>
+    </section>
 
-    <!-- Aba 3: Check-out Digital -->
-    <div class="pega-tab-content" id="pega-tab-2">
-        <pega-embed id='theEmbed-2' action='createCase' caseTypeID='Aviva-Experience-Work-CheckoutDigital' themeID='pzCosmosDefault' casePage='assignment' assignmentHeader='false' appAlias='aviva--experincia-do-hspede-1' pegaServerUrl='https://reguv.pegatsdemo.com/prweb/' grantType='customBearer' clientId='13673903982745833564' style='width:100%'></pega-embed>
-    </div>
-</div>
+    <!-- CTA -->
+    <section class="cta">
+        <div class="container">
+            <h3>Pronto para a Aventura?</h3>
+            <p>Escolha um dos nossos serviços acima e comece sua experiência na Aviva Resorts</p>
+            <a href="#reserva" class="btn">Acessar Serviços</a>
+        </div>
+    </section>
 
-</div>
-</main>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h4>Aviva Resorts</h4>
+                    <p>Multiplicando maneiras de fazer você feliz</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Destinos</h4>
+                    <ul>
+                        <li><a href="#">Rio Quente</a></li>
+                        <li><a href="#">Costa do Sauípe</a></li>
+                        <li><a href="#">Hot Park</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contato</h4>
+                    <p>📞 0800 000 0000</p>
+                    <p>✉️ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="aedccbddcbdcd8cfddeecfd8c7d8cf80cdc1c380ccdc">[email&#160;protected]</a></p>
+                    <p>🌐 www.aviva.com.br</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Redes Sociais</h4>
+                    <ul>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Aviva Resorts. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
 
-<footer>
-<div class="social-bar">
-    <a href="#"><i class="fa-brands fa-instagram"></i></a>
-    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-    <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-</div>
-<p>© 2026 AVIVA RESORTS — TODOS OS DIREITOS RESERVADOS</p>
-</footer>
+    <script src="https://adqura02.pegalabs.io/prweb/PRRestService/c11nsvc/v1/pega-embed.js"></script>
+    <script>
+        var tabs = [
+            { caseTypeID: 'Aviva-Experience-Work-BookingConfirmation', clientId: '12444249209306947994' },
+            { caseTypeID: 'Aviva-Experience-Work-CheckinDigital',      clientId: '55966357118681751596' },
+            { caseTypeID: 'Aviva-Experience-Work-CheckoutDigital',     clientId: '13673903982745833564' }
+        ];
 
-<script>
-function switchTab(index) {
-    // Remove a classe 'active' de todos os botões
-    const buttons = document.querySelectorAll('.tab-btn');
-    buttons.forEach(function(button) {
-        button.classList.remove('active');
-    });
-    
-    // Adiciona a classe 'active' ao botão clicado
-    buttons[index].classList.add('active');
-    
-    // Remove a classe 'active' de todas as abas
-    const tabs = document.querySelectorAll('.pega-tab-content');
-    tabs.forEach(function(tab) {
-        tab.classList.remove('active');
-    });
-    
-    // Adiciona a classe 'active' à aba correspondente
-    const activeTab = document.getElementById('pega-tab-' + index);
-    if (activeTab) {
-        activeTab.classList.add('active');
-    }
-}
-</script>
+        function switchTab(index) {
+            document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+            document.querySelectorAll('.tab-btn')[index].classList.add('active');
 
+            var container = document.getElementById('pega-container');
+            container.innerHTML = '';
+
+            var el = document.createElement('pega-embed');
+            el.setAttribute('id', 'theEmbed');
+            el.setAttribute('action', 'createCase');
+            el.setAttribute('caseTypeID', tabs[index].caseTypeID);
+            el.setAttribute('themeID', 'pzCosmosDefault');
+            el.setAttribute('casePage', 'assignment');
+            el.setAttribute('assignmentHeader', 'false');
+            el.setAttribute('appAlias', 'aviva--experincia-do-hspede-1');
+            el.setAttribute('pegaServerUrl', 'https://adqura02.pegalabs.io/prweb/');
+            el.setAttribute('grantType', 'customBearer');
+            el.setAttribute('clientId', tabs[index].clientId);
+            el.style.width = '100%';
+            container.appendChild(el);
+        }
+
+        window.addEventListener('DOMContentLoaded', function() { switchTab(0); });
+    </script>
 </body>
 </html>
