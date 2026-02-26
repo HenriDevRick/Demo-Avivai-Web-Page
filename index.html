@@ -461,7 +461,17 @@
                 <button class="tab-btn" onclick="switchTab(2)">Check-out</button>
             </div>
 
-            <div class="pega-container" id="pega-container"></div>
+            <div class="pega-container">
+                <div class="pega-panel">
+                    <pega-embed id='embedReserva' action='createCase' caseTypeID='Aviva-Experience-Work-BookingConfirmation' themeID='pzCosmosDefault' casePage='assignment' assignmentHeader='false' appAlias='aviva--experincia-do-hspede-1' pegaServerUrl='https://reguv.pegatsdemo.com/prweb/' grantType='customBearer' clientId='12444249209306947994' style='width:100%'></pega-embed>
+                </div>
+                <div class="pega-panel">
+                    <pega-embed id='embedCheckin' action='createCase' caseTypeID='Aviva-Experience-Work-CheckinDigital' themeID='pzCosmosDefault' casePage='assignment' assignmentHeader='false' appAlias='aviva--experincia-do-hspede-1' pegaServerUrl='https://reguv.pegatsdemo.com/prweb/' grantType='customBearer' clientId='55966357118681751596' style='width:100%'></pega-embed>
+                </div>
+                <div class="pega-panel">
+                    <pega-embed id='embedCheckout' action='createCase' caseTypeID='Aviva-Experience-Work-CheckoutDigital' themeID='pzCosmosDefault' casePage='assignment' assignmentHeader='false' appAlias='aviva--experincia-do-hspede-1' pegaServerUrl='https://reguv.pegatsdemo.com/prweb/' grantType='customBearer' clientId='13673903982745833564' style='width:100%'></pega-embed>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -511,34 +521,15 @@
         </div>
     </footer>
 
-    <script src="https://adqura02.pegalabs.io/prweb/PRRestService/c11nsvc/v1/pega-embed.js"></script>
+    <script src='https://reguv.pegatsdemo.com/prweb/PRRestService/c11nsvc/v1/pega-embed.js'></script>
     <script>
-        var tabs = [
-            { caseTypeID: 'Aviva-Experience-Work-BookingConfirmation', clientId: '12444249209306947994' },
-            { caseTypeID: 'Aviva-Experience-Work-CheckinDigital',      clientId: '55966357118681751596' },
-            { caseTypeID: 'Aviva-Experience-Work-CheckoutDigital',     clientId: '13673903982745833564' }
-        ];
-
         function switchTab(index) {
             document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
             document.querySelectorAll('.tab-btn')[index].classList.add('active');
 
-            var container = document.getElementById('pega-container');
-            container.innerHTML = '';
-
-            var el = document.createElement('pega-embed');
-            el.setAttribute('id', 'theEmbed');
-            el.setAttribute('action', 'createCase');
-            el.setAttribute('caseTypeID', tabs[index].caseTypeID);
-            el.setAttribute('themeID', 'pzCosmosDefault');
-            el.setAttribute('casePage', 'assignment');
-            el.setAttribute('assignmentHeader', 'false');
-            el.setAttribute('appAlias', 'aviva--experincia-do-hspede-1');
-            el.setAttribute('pegaServerUrl', 'https://adqura02.pegalabs.io/prweb/');
-            el.setAttribute('grantType', 'customBearer');
-            el.setAttribute('clientId', tabs[index].clientId);
-            el.style.width = '100%';
-            container.appendChild(el);
+            document.querySelectorAll('.pega-panel').forEach(function(p, i) {
+                p.style.display = (i === index) ? 'block' : 'none';
+            });
         }
 
         window.addEventListener('DOMContentLoaded', function() { switchTab(0); });
